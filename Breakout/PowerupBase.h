@@ -24,6 +24,8 @@ public:
     void setAlive(bool alive);
     bool isAlive();
 
+    
+
 protected: // Protected so derived classes can access these members
     // Constants
     static constexpr float RADIUS = 20.f;               // size of powerup on screen
