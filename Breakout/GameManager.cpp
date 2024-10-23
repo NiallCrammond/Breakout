@@ -181,7 +181,6 @@ void GameManager::cameraShake(float frequency, float offsetX, float offsetY)
 {
     if (timeSinceDeath > frequency)
     {
-        std::cout << "shake" << std::endl;
     direction = -direction;
     sf::View viewWindow = _window->getView();
     viewWindow.move(offsetX*direction, offsetY * direction);
