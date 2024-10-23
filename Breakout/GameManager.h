@@ -19,6 +19,7 @@ public:
     void render();
     void levelComplete();
     void powerupEffect(POWERUPS pu, float t);
+    void cameraShake(float frequency, float offsetX, float offsetY);
 
     Paddle* getPaddle() const;
     BrickManager* getBrickManager() const;
@@ -32,8 +33,14 @@ private:
     float _pauseHold;
     float _time;
     float _timeLastPowerupSpawned;
+    float powerUpFreq = POWERUP_FREQUENCY;
+    float cameraShakeDuration = 0.0f;
+    float timeSinceDeath = 0.0f;
     int _lives;
+    int direction =1;
     bool _levelComplete;
+    bool lifeLost = false;
+    int chosenInput = 0;
     std::pair<POWERUPS, float> _powerupInEffect;
 
     sf::Font _font;
@@ -47,6 +54,9 @@ private:
     MessagingSystem* _messagingSystem;
     UI* _ui;
 
+    int spawnChance = 700;
     static constexpr float PAUSE_TIME_BUFFER = 0.5f;
     static constexpr float POWERUP_FREQUENCY = 7.5f;    // time between minimum powerup spawn
+    bool canMove;
+
 };

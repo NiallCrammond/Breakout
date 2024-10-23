@@ -3,7 +3,7 @@
 #include "UI.h"
 #include "GameManager.h"
 #include <iomanip>
-
+#include <iostream>
 UI::UI(sf::RenderWindow* window, int lives, GameManager* gameManager) 
 	: _window(window), _gameManager(gameManager)
 {
@@ -37,7 +37,7 @@ void UI::updatePowerupText(std::pair<POWERUPS, float> powerup)
 	{
 	case bigPaddle:
 		oss << std::fixed << std::setprecision(2) << powerup.second;
-		_powerupText.setString("big " + oss.str());
+		_powerupText.setString("biggg " + oss.str());
 		_powerupText.setFillColor(paddleEffectsColour);
 		break;
 	case smallPaddle:
@@ -60,8 +60,16 @@ void UI::updatePowerupText(std::pair<POWERUPS, float> powerup)
 		_powerupText.setString("fire " + oss.str());
 		_powerupText.setFillColor(extraBallEffectsColour);
 		break;
+	case fastPaddle:
+	
+		oss << std::fixed << std::setprecision(2) << powerup.second;
+		_powerupText.setString("fast " + oss.str());
+		_powerupText.setFillColor(paddleEffectsColour);
+		break;
 	case none:
 		_powerupText.setString("");
+
+		
 		
 		break;
 	}

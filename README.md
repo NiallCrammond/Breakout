@@ -3,6 +3,10 @@
 W Kavanagh. June Summer 2024
 
 ## controls
+Using top number bar - 
+1 = keyboard input.
+2 = mouse click input.
+3 = mouse follow.
 
 A/D to move the paddle right and left.
 P to pause.
@@ -15,21 +19,14 @@ fire ball (green)
 
 # Tasklist
 
-## Suggested fixes
-
-* Fix the compiler issues in the code
-
-## Suggested tasks
-
-* Implement mouse input for pad
-* Improved VFX (ball trail, paddle hit response, brick particle destruction)
-* Better UI (progress bar rather than timer for countdown).
-* GameLoop
-* Better ball physics (Box2D)
-* Leaderboards
-* More ball types (e.g., multiball, sticky ball [where you shoot the ball from the paddle every time], tiny ball, big ball, brick-tracking ball)
-* Sounds with increasing tone between bounces.
-* Implement commentary with calls to an LLM such as LLama
 
 # Time Details and Changelist
 <Add information to this section about the time you've taken for this task along with a professional changelist.>
+21/10/24 20:00 - 20:05 - Fixed compiler issues. Removed #include "PowerupFireBall.h" from PoweupBase.h
+21/10/24 20:05 - 20:10 - Code efficiency, removed double input check for movement. Paddle no longer checks input in movement functions, handled by game manager.
+21/10/24 20:10 - 20:40 - Added mouse click to paddle
+22/10/24 20:00 - 20:30 - Added Paddle to follow mouse 
+22/10/24 22:00-23:00 - Added Fast paddle powerup including UI display
+23/10/24 8:35 - 8:40 - Paramterize power up spawn in Game manager
+23/10/24 8:40- 9:35 CameraShake on Death Added
+23/10/24 9:35- 9:45 Added option to switch between inputs using 1,2,3

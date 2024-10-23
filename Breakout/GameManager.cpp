@@ -34,7 +34,8 @@ void GameManager::update(float dt)
     _ui->updatePowerupText(_powerupInEffect);
     _powerupInEffect.second -= dt;
     
-
+   
+ 
     if (_lives <= 0)
     {
         _masterText.setString("Game over.");
@@ -71,16 +72,82 @@ void GameManager::update(float dt)
     _time += dt;
 
 
-    if (_time > _timeLastPowerupSpawned + POWERUP_FREQUENCY && rand()%700 == 0)      // TODO parameterise
+    if (_time > _timeLastPowerupSpawned + powerUpFreq && rand()%spawnChance == 0)      
     {
         _powerupManager->spawnPowerup();
         _timeLastPowerupSpawned = _time;
     }
 
-    // move paddle
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) _paddle->moveRight(dt);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) _paddle->moveLeft(dt);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+    {
+        chosenInput = 0;
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+    {
+        chosenInput = 1;
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+    {
+        chosenInput = 2;
+    }
 
+    switch (chosenInput)
+    {
+    case 0 :
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        {
+            _paddle->moveRight(dt);
+            canMove = false;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        {
+            _paddle->moveLeft(dt);
+            canMove = false;
+        }
+        break;
+
+    case 1:
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        {
+            _paddle->moveRight(dt);
+            canMove = false;
+        }
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            _paddle->moveLeft(dt);
+            canMove = false;
+        }
+        break;
+    case 2:
+
+        if (sf::Mouse::getPosition(*_window).x - _paddle->getWidth() / 2 > _paddle->getPosition().x && canMove)
+        {
+
+            _paddle->moveRight(dt);
+        }
+        else if (sf::Mouse::getPosition(*_window).x - _paddle->getWidth() / 2 < _paddle->getPosition().x && canMove)
+        {
+            _paddle->moveLeft(dt);
+
+        }
+        break;
+    }
+
+
+    if (cameraShakeDuration >0)
+    {
+       cameraShakeDuration -= dt;
+       timeSinceDeath += dt;
+       cameraShake(0.05,5,5);
+    }
+    else
+    {
+        _window->setView(_window->getDefaultView());
+    }
+ 
+    
+    canMove = true;
     // update everything 
     _paddle->update(dt);
     _ball->update(dt);
@@ -91,8 +158,8 @@ void GameManager::loseLife()
 {
     _lives--;
     _ui->lifeLost(_lives);
-
-    // TODO screen shake.
+    lifeLost = true;
+    cameraShakeDuration = 0.5;
 }
 
 void GameManager::render()
@@ -108,6 +175,21 @@ void GameManager::render()
 void GameManager::levelComplete()
 {
     _levelComplete = true;
+}
+
+void GameManager::cameraShake(float frequency, float offsetX, float offsetY)
+{
+    if (timeSinceDeath > frequency)
+    {
+        std::cout << "shake" << std::endl;
+    direction = -direction;
+    sf::View viewWindow = _window->getView();
+    viewWindow.move(offsetX*direction, offsetY * direction);
+    _window->setView(viewWindow);
+    timeSinceDeath = 0;
+    }
+   
+    
 }
 
 sf::RenderWindow* GameManager::getWindow() const { return _window; }
